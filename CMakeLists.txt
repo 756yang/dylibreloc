@@ -1,6 +1,6 @@
 set(CMAKE_C_COMPILER "gcc")
 project(dylibreloc)
-set(CMAKE_C_FLAGS "-fexec-charset=UTF-8 -static -Os -DNDEBUG")
+set(CMAKE_C_FLAGS "-fexec-charset=UTF-8 -mcmodel=small -static -Os -DNDEBUG")
 
 # 链接各种动态库, dylibreloc 将编写为以间址访问此动态库的静态库
 #link_libraries(fastcpy)

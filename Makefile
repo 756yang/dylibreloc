@@ -19,7 +19,7 @@ libtfastcpy_lib: dylibreloc_static.obj
 
 # 最小体积编译 dylibreloc
 dylibreloc_shared.obj: dylibreloc.c
-	gcc -m64 -L./dylib -lfastcpy -c -Os -DNDEBUG -DDYLIB_RELOC_USE_MUTEX dylibreloc.c -o dylibreloc_shared.obj
+	gcc -m64 -L./dylib -lfastcpy -c -mcmodel=small -Os -DNDEBUG -DDYLIB_RELOC_USE_MUTEX dylibreloc.c -o dylibreloc_shared.obj
 
 dylibreloc_static.obj: dylibreloc.c
-	gcc -m64 -L./lib -lfastcpy -c -Os -DNDEBUG -DFASTCPY_STATIC_LIBRARY -DDYLIB_RELOC_USE_MUTEX dylibreloc.c -o dylibreloc_static.obj
+	gcc -m64 -L./lib -lfastcpy -c -mcmodel=small -Os -DNDEBUG -DFASTCPY_STATIC_LIBRARY -DDYLIB_RELOC_USE_MUTEX dylibreloc.c -o dylibreloc_static.obj

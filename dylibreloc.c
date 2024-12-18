@@ -32,8 +32,6 @@
 // 指令集支持级别
 _Atomic int32_t DYLIB_RELOC_LEVEL = ATOMIC_VAR_INIT(_L_RELOC_DEFAULT);
 
-static void (DYLIB_RELOC_IMPL)(void);
-
 /* 定义动态库全局变量的导入表 */
 
 /* 隐式链接动态库时, 没必要重定向其导出变量, 显示加载动态库的重定向暂未完善 */
@@ -184,7 +182,7 @@ INLINE static int32_t _TC_CAT(DYLIB_RELOC_IMPL,_once)(void) {
 INLINE static void _TC_CAT(DYLIB_RELOC_IMPL,_call_once)(void);
 
 /* 动态库符号重定位实现, 函数名称可用小括号括起来, 这允许函数名与带参宏名相同 */
-NOINLINE __attribute__((used)) static void (DYLIB_RELOC_IMPL)(void) {
+NOINLINE __attribute__((used)) void (DYLIB_RELOC_IMPL)(void) {
 	__asm__ __volatile__(_STR_CAT(
 		cmpl	$(_L_RELOC_DEFAULT), DYLIB_RELOC_LEVEL(%rip)\n\t
 		jle 	_TC_CAT(DYLIB_RELOC_IMPL,_check)\n\t
@@ -448,9 +446,9 @@ INLINE static void _TC_CAT(DYLIB_RELOC_IMPL,_call_once)(void) {
 #   include <windows.h>
 
 // Global variable for one-time initialization structure
-INIT_ONCE _TC_CAT(DYLIB_RELOC_IMPL,_once_flag) = INIT_ONCE_STATIC_INIT; // Static initialization
+static INIT_ONCE _TC_CAT(DYLIB_RELOC_IMPL,_once_flag) = INIT_ONCE_STATIC_INIT; // Static initialization
 
-BOOL _TC_CAT(DYLIB_RELOC_IMPL,_init_once)(PINIT_ONCE InitOnce, PVOID Parameter, PVOID *Context) {
+static BOOL _TC_CAT(DYLIB_RELOC_IMPL,_init_once)(PINIT_ONCE InitOnce, PVOID Parameter, PVOID *Context) {
 	atomic_store_rel(&DYLIB_RELOC_LEVEL, _TC_CAT(DYLIB_RELOC_IMPL,_once)());
 	return TRUE;
 }

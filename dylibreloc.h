@@ -99,6 +99,8 @@ INLINE static void (STATEMENT_X86_64_V4)(void) {};
 # define DYLIB_RELOC_IMPL dylibreloc_impl
 #endif
 
+void (DYLIB_RELOC_IMPL)(void);
+
 /* 类型名, 需加入导入表的函数原型, 请以 typedef 定义 */
 #define _T_RELOC(name) __TC_CAT(type_, name)
 
